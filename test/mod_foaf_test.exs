@@ -19,9 +19,9 @@ defmodule Ejabberd.Module.FOAFTest do
   test "that the module returns a list of friends" do
     host = "localhost"
     user = "romeo"
-    friend = {"juliet", "localhost", ""}
+    jid = {"juliet", "localhost", ""}
     
-    friends = Ejabberd.Module.FOAF.get_friends(host, user, friend)
+    friends = Ejabberd.Module.FOAF.get_friends(host, user, jid)
     assert friends == [
       {"mercutio", "localhost", ""},
       {"tybalt", "localhost", ""},
@@ -35,27 +35,27 @@ defmodule Ejabberd.Module.FOAFTest do
   ## Test Helper
   ##
   
-  def get_roster(roster, user) do
+  def get_roster(roster, {user, host}) do
     [
-      roster_item(user, {"mom", "localhost", ""}, :both, ["Family"]),
-      roster_item(user, {"dad", "localhost", ""}, :both, ["Family"]),
-      roster_item(user, {"mercutio", "localhost", ""}, :both, ["Friends"]),
-      roster_item(user, {"tybalt", "localhost", ""}, :both, ["Friends"]),
-      roster_item(user, {"peter", "localhost", ""}, :both, ["Friends"]),
-      roster_item(user, {"paul", "localhost", ""}, :from, ["Friends"]),
-      roster_item(user, {"benvolio", "localhost", ""}, :both, ["Friends"]),
-      roster_item(user, {"juliet", "localhost", ""}, :both, ["Friends", "Lovers"])
-    ] ++ roster
+      roster_item({user, host}, {"mom", "localhost", ""}, :both, ["Family"]),
+      roster_item({user, host}, {"dad", "localhost", ""}, :both, ["Family"]),
+      roster_item({user, host}, {"mercutio", "localhost", ""}, :both, ["Friends"]),
+      roster_item({user, host}, {"tybalt", "localhost", ""}, :both, ["Friends"]),
+      roster_item({user, host}, {"peter", "localhost", ""}, :both, ["Friends"]),
+      roster_item({user, host}, {"paul", "localhost", ""}, :from, ["Friends"]),
+      roster_item({user, host}, {"benvolio", "localhost", ""}, :both, ["Friends"]),
+      roster_item({user, host}, {"juliet", "localhost", ""}, :both, ["Friends", "Lovers"])
+    ]
   end
   
   def get_roster_jid_info({_subscription, groups}, "romeo", "localhost", {:jid, "juliet", "localhost", "", "juliet", "localhost", ""}) do
-    {:both, groups ++ ["Friends", "Lovers"]}
+    {:both, ["Friends", "Lovers"]}
   end
   
   def get_roster_jid_info(info, _, _, _), do: info
   
-  def roster_item({user, server}, friend, subscription, groups) do
-    {:roster, {user, server, friend}, {user, server}, friend, "", subscription, :none, groups, "", []}
+  def roster_item({user, server}, jid, subscription, groups) do
+    {:roster, {user, server, jid}, {user, server}, jid, "", subscription, :none, groups, "", []}
   end
   
 end
