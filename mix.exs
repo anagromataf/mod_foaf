@@ -4,7 +4,7 @@ defmodule Ejabberd.Module.FOAF.Mixfile do
   def project do
     [app: :mod_foaf,
      version: "0.0.1",
-     elixir: "~> 1.0",
+     elixir: "~> 1.1",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -15,6 +15,6 @@ defmodule Ejabberd.Module.FOAF.Mixfile do
   end
   
   defp deps do
-    [{:ejabberd, github: "processone/ejabberd", tag: "15.04"}]
+    [{:ejabberd, github: "processone/ejabberd", tag: "15.10"}]
   end
 end
